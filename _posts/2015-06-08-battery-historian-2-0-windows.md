@@ -49,7 +49,7 @@ So if you’re an Android developer who is developing on Windows, let me make yo
 While you may already have some version of git installed on your system, it will be easier if you get the official client and make it available to Windows Command Prompt. In order to do so, download [git’s latest version](http://git-scm.com/download/win) and trigger its installation.
 
 When you get the chance to do it, do not forget to pick “Use Git from the Windows Command Prompt” :  
-[![select Use Git from the Windows Command Prompt](http://ph0b.com/wp-content/uploads/2015/06/battery-historian-1.png)](http://ph0b.com/wp-content/uploads/2015/06/battery-historian-1.png)
+[![select Use Git from the Windows Command Prompt](/wp-content/uploads/2015/06/battery-historian-1.png)](/wp-content/uploads/2015/06/battery-historian-1.png)
 
 ### Python
 
@@ -62,7 +62,7 @@ Download and trigger the installer of your choice from [Python.org](https://www.
 Battery Historian 2.0 has been rewritten in Go, so you need first to [download and install](http://golang.org/doc/install) it.  
 Once this is done, create a go workspace (ie. a directory):
 
-```
+```shell
 mkdir %USERPROFILE%\go-workspace
 ```
 
@@ -70,7 +70,7 @@ mkdir %USERPROFILE%\go-workspace
 
 Open a Windows Command Prompt (cmd) and set useful Go specific environment variables, then go into your Go workspace:
 
-```
+```shell
 set GOPATH=%USERPROFILE%\go-workspace
 set GOBIN=%GOPATH%\bin
 set PATH=%PATH%;%GOBIN%
@@ -79,7 +79,7 @@ cd %GOPATH%
 
 Get the latest battery historian and install it:
 
-```
+```shell
 go get -u github.com/google/battery-historian
 cd %GOPATH%\src\github.com\google\battery-historian
 go run setup.go
@@ -87,52 +87,52 @@ go run setup.go
 
 ***update from 3/25/16**: Battery historian has been updated with a much improved support for Windows, so the following method isn’t required anymore:*
 
-<del>Now get additional go dependencies (proto, protoc-gen-go) as well as Battery Historian, by executing:</del>
+~~Now get additional go dependencies (proto, protoc-gen-go) as well as Battery Historian, by executing:~~
 
-```
-<del>go get -u github.com/golang/protobuf/proto
+```shell
+go get -u github.com/golang/protobuf/proto
 go get -u github.com/golang/protobuf/protoc-gen-go
-go get -u github.com/google/battery-historian</del>
+go get -u github.com/google/battery-historian
 ```
 
-<del>Then you need to add closure library and compilers to battery historian. Go into battery-historian: *%GOPATH%\\src\\github.com\\google\\battery-historian* and create two directories: *third\_party* and *compiled*.</del>
+~~Then you need to add closure library and compilers to battery historian. Go into battery-historian: *%GOPATH%\\src\\github.com\\google\\battery-historian* and create two directories: *third\_party* and *compiled*.~~
 
-<del>Download the [Closure compiler](http://dl.google.com/closure-compiler/compiler-20150315.zip) and unzip it inside *third\_party\\closure-compiler*</del>  
-<del> ![Closure Compiler unziped](http://ph0b.com/wp-content/uploads/2015/06/Capture.png)</del>
+~~Download the [Closure compiler](http://dl.google.com/closure-compiler/compiler-20150315.zip) and unzip it inside *third\_party\\closure-compiler*  
+ ![Closure Compiler unziped](/wp-content/uploads/2015/06/Capture.png)~~
 
-<del>Clone the closure library to *third\_party\\closure-library*</del>
+~~Clone the closure library to *third\_party\\closure-library*~~
 
-```
-<del>git clone https://github.com/google/closure-library third_party/closure-library</del>
-```
-
-<del>If you’re using Python 3, change the ligne 123 of *third\_party/closure-library\\closure\\bin\\build\\source.py* from this library: (that fix has been upstreamed)</del>
-
-```
-<del>-		fileobj = open(path)
-+		fileobj = open(path, encoding="utf8")</del>
+```shell
+git clone https://github.com/google/closure-library third_party/closure-library
 ```
 
-<del>While we’re editing sources, if you want the Battery Historian 1.0 tab to work from Battery Historian 2.0, change line 266 of *battery-historian\\analyzer\\analyzer.go* to add first the reference to your Python executable (python.exe is enough if the directory is part of your path):</del>
+~~If you’re using Python 3, change the ligne 123 of *third\_party/closure-library\\closure\\bin\\build\\source.py* from this library: (that fix has been upstreamed)~~
 
-```
-<del>-       cmd := exec.Command("./historian.py", "-c", "-m", "-r", reportName, filepath)
-+       cmd := exec.Command("C:\\Python27\\python.exe", "./historian.py", "-c", "-m", "-r", reportName, filepath)</del>
+```diff
+-    fileobj = open(path)
++    fileobj = open(path, encoding="utf8")
 ```
 
-<del>Finally, to finish the installation of Battery Historian 2.0, execute these two commands from the *battery-historian* directory:</del>
+~~While we’re editing sources, if you want the Battery Historian 1.0 tab to work from Battery Historian 2.0, change line 266 of *battery-historian\\analyzer\\analyzer.go* to add first the reference to your Python executable (python.exe is enough if the directory is part of your path):~~
 
+```shell
+-       cmd := exec.Command("./historian.py", "-c", "-m", "-r", reportName, filepath)
++       cmd := exec.Command("C:\\Python27\\python.exe", "./historian.py", "-c", "-m", "-r", reportName, filepath)
 ```
-<del>third_party\closure-library\closure\bin\build\depswriter.py --root="third_party\closure-library\closure\goog" --root_with_prefix="js ../../../../js" > compiled\historian_deps-runfiles.js
-		
-java -jar third_party\closure-compiler\compiler.jar --closure_entry_point historian.Historian --js js\*.js --js third_party\closure-library\closure\goog\base.js --js third_party\closure-library\closure\goog\** --only_closure_dependencies --generate_exports --js_output_file compiled\historian-optimized.js --compilation_level SIMPLE_OPTIMIZATIONS</del>
+
+~~Finally, to finish the installation of Battery Historian 2.0, execute these two commands from the *battery-historian* directory:~~
+
+```shell
+third_party\closure-library\closure\bin\build\depswriter.py --root="third_party\closure-library\closure\goog" --root_with_prefix="js ../../../../js" > compiled\historian_deps-runfiles.js
+
+java -jar third_party\closure-compiler\compiler.jar --closure_entry_point historian.Historian --js js\*.js --js third_party\closure-library\closure\goog\base.js --js third_party\closure-library\closure\goog\** --only_closure_dependencies --generate_exports --js_output_file compiled\historian-optimized.js --compilation_level SIMPLE_OPTIMIZATIONS
 ```
 
 ## 3. Running Battery Historian 2.0
 
 Now that you’ve went through all the installation steps, you can finally launch Battery Historian:
 
-```
+```shell
 set GOPATH=%USERPROFILE%\go-workspace
 cd %GOPATH%\src\github.com\google\battery-historian
 go run cmd\battery-historian\battery-historian.go
@@ -140,12 +140,12 @@ go run cmd\battery-historian\battery-historian.go
 
 *Tip*: place these lines inside a *.cmd* file you’ll be able to double click on to launch Battery Historian.
 
-[![battery-historian.cmd](http://ph0b.com/wp-content/uploads/2015/06/Capture1-1024x367.png)](http://ph0b.com/wp-content/uploads/2015/06/Capture1.png)
+[![battery-historian.cmd](/wp-content/uploads/2015/06/Capture1-1024x367.png)](/wp-content/uploads/2015/06/Capture1.png)
 
 Go to <http://localhost:9999> and you should see your Battery Historian 2.0 local server up and running:
 
-[![Battery Historian Server](http://ph0b.com/wp-content/uploads/2015/06/Capture2-300x156.png)](http://ph0b.com/wp-content/uploads/2015/06/Capture2.png)
+[![Battery Historian Server](/wp-content/uploads/2015/06/Capture2-300x156.png)](/wp-content/uploads/2015/06/Capture2.png)
 
 Now you can upload a bugreport to it, and enjoy this tool on Windows!
 
-[![Battery Historian 2.0 report](http://ph0b.com/wp-content/uploads/2015/06/Screenshot-5-1024x795.png)](http://ph0b.com/wp-content/uploads/2015/06/Screenshot-5.png)
+[![Battery Historian 2.0 report](/wp-content/uploads/2015/06/Screenshot-5-1024x795.png)](/wp-content/uploads/2015/06/Screenshot-5.png)

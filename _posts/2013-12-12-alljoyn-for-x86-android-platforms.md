@@ -24,7 +24,7 @@ Even if the precompiled x86 version isn’t distributed from the official websit
 
 When you download the release package for Android, here is what you get:
 
-```
+```text
 cpp/    core AllJoyn functionality, implemented in C++
           - built from Git projects alljoyn_core and common
           - required for all AllJoyn applications
@@ -38,24 +38,24 @@ about/  implements AllJoyn About Feature. (built from about.git/(cpp and java))
 
  If you use the Java binding **alljoyn.jar**, you’ll end up with **liballjoyn\_java.so** in **lib/armeabi**/. The binaries (.so/.a files) from this package are ARMv5 only but compiling it from the sources is perfectly supported.
 
-Here is the x86 release version I’ve compiled for you: [alljoyn-3.4.5-android-sdk-rel-x86.zip](http://ph0b.com/wp-content/uploads/2013/12/alljoyn-3.4.5-android-sdk-rel-x86.zip). It follows the same architecture than the ARMv5 release.
+Here is the x86 release version I’ve compiled for you: [alljoyn-3.4.5-android-sdk-rel-x86.zip](/wp-content/uploads/2013/12/alljoyn-3.4.5-android-sdk-rel-x86.zip). It follows the same architecture than the ARMv5 release.
 
-If you’re just using the AllJoyn .jar on Android, you can directly get the [liballjoyn\_java.so](http://ph0b.com/wp-content/uploads/2013/12/liballjoyn_java_x86.zip) and put it inside the **lib/x86** directory of your Android application.
+If you’re just using the AllJoyn .jar on Android, you can directly get the [liballjoyn\_java.so](/wp-content/uploads/2013/12/liballjoyn_java_x86.zip) and put it inside the **lib/x86** directory of your Android application.
 
 If you want to recompile it yourself or know more about the process, here is what I did:
 
 ## Recompiling Alljoyn for x86-based Android platforms
 
-<span style="text-align: justify; line-height: 1.5;">First, get the sources:</span>
+First, get the sources:
 
-```
+```shell
 git clone https://git.allseenalliance.org/gerrit/core/alljoyn
 cd alljoyn
 ```
 
 Then, retrieve **libcrypto.so** and **libssl.so** from a real x86 device or the x86 emulator and put them inside **build/android/x86/release/dist/cpp/lib/** :
 
-```
+```shell
 mkdir -p build/android/x86/release/dist/cpp/lib/
 adb pull /system/lib/libcrypto.so build/android/x86/release/dist/cpp/lib/
 adb pull /system/lib/libssl.so build/android/x86/release/dist/cpp/lib/
@@ -63,7 +63,7 @@ adb pull /system/lib/libssl.so build/android/x86/release/dist/cpp/lib/
 
 Now you can build the lib for x86 as explained by the project documentation – the tedious part being the need of having a copy of the AOSP sources:
 
-```
+```shell
 export CLASSPATH=/usr/share/java/junit.jar
 scons OS=android CPU=x86 ANDROID_NDK=/opt/android-ndk ANDROID_SDK=/opt/android-sdk ANDROID_SRC=/home/ph0b/android-build VARIANT=release BINDINGS=cpp,c,java,unity
 ```

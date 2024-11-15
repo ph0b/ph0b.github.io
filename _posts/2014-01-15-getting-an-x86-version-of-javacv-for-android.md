@@ -17,22 +17,22 @@ tags:
     - x86
 ---
 
-[JavaCV ](https://code.google.com/p/javacv/)is a wrapper of mainly OpenCV and ffmpeg libraries. While these libs are perfectly compatible with x86 flavor of Android, JavaCV doesn’t provide the build scripts nor it integrate the x86 binaries.
+[JavaCV](https://code.google.com/p/javacv/) is a wrapper of mainly OpenCV and ffmpeg libraries. While these libs are perfectly compatible with x86 flavor of Android, JavaCV doesn’t provide the build scripts nor it integrate the x86 binaries.
 
 It doesn’t take much to compile the proper x86 versions of JavaCV packages, but if you’re in a hurry, here they are:
 
-- [javacv-0.7-bin-android-x86.zip](http://ph0b.com/wp-content/uploads/2014/01/javacv-0.7-bin-android-x86.zip)
-- [javacv-0.7-cppjars-android-x86.zip](http://ph0b.com/wp-content/uploads/2014/01/javacv-0.7-cppjars-android-x86.zip)
+- [javacv-0.7-bin-android-x86.zip](/wp-content/uploads/2014/01/javacv-0.7-bin-android-x86.zip)
+- [javacv-0.7-cppjars-android-x86.zip](/wp-content/uploads/2014/01/javacv-0.7-cppjars-android-x86.zip)
 
 Now let’s look at what was needed to build these. You need the usual build tools (gcc, make…) as well as maven.
 
 You first need to recompile cppjars:
 
-# Recompiling cppjars (OpenCV and ffmpeg)
+## Recompiling cppjars (OpenCV and ffmpeg)
 
 You can easily do so by reusing the build scripts provided in the cppjars release package:
 
-```
+```shell
 wget https://javacv.googlecode.com/files/javacv-0.7-cppjars.zip
 unzip javacv-0.7-cppjars.zip
 cd javacv-cppjars
@@ -52,7 +52,7 @@ Don’t do this blindly – it will work better if you understand what you’re 
 
 In the end here is the content I have for **build\_ffmpeg-android-x86.sh**:
 
-```
+```bash
 ANDROID_BIN=$ANDROID_NDK/toolchains/x86-4.8/prebuilt/linux-x86_64/bin
 ANDROID_ROOT=$ANDROID_NDK/platforms/android-14/arch-x86
 tar -xjvf ffmpeg-$FFMPEG_VERSION.tar.bz2
@@ -85,7 +85,7 @@ Here **ffmpeg-$FFMPEG\_VERSION-android-x86.patch** is exactly the same as the ar
 
 And for **build\_opencv-android-x86.sh**:
 
-```
+```bash
 tar -xzvf opencv-$OPENCV_VERSION.tar.gz
 mkdir opencv-$OPENCV_VERSION/build_android-x86
 cd opencv-$OPENCV_VERSION
@@ -106,13 +106,13 @@ cd ../../
 
 Here I have deleted the call to the -arm patch that was generating another android.mk file to directly rely on **platforms/android/android.toolchain.cmake** that is provided by **OpenCV** and I’ve also added specific flags to get more optimization:
 
-```
+```bash
 -DANDROID_ABI=x86 -DOPENCV_EXTRA_C_FLAGS="-O3 -ffast-math -mtune=atom -mssse3 -mfpmath=sse" -DOPENCV_EXTRA_CXX_FLAGS="-O3 -ffast-math -mtune=atom -mssse3 -mfpmath=sse"
 ```
 
  Now if you call:
 
-```
+```shell
 sh ./build_all.sh android-x86
 cd ..
 ```
@@ -121,11 +121,11 @@ This will generate you **ffmpeg-2.1.1-android-x86.jar** and **opencv-2.4.8-andro
 
 Now you can finally build the JavaCV package:
 
-# Packaging x86 version of JavaCV
+## Packaging x86 version of JavaCV
 
-<span style="line-height: 1.5;">First retrieve and install JavaCPP:</span>
+First retrieve and install JavaCPP:
 
-```
+```shell
 git clone https://code.google.com/p/javacpp/
 cd javacpp/
 git checkout 0.6
@@ -135,7 +135,7 @@ cd ..
 
 Once its done, retrieve JavaCV source code:
 
-```
+```shell
 git clone https://code.google.com/p/javacv/
 cd javacv
 git checkout 0.7
@@ -143,7 +143,7 @@ git checkout 0.7
 
  You can now package the android-x86 version of **JavaCV** by setting the **android-x86** property to **JavaCPP** a:
 
-```
+```shell
 mvn package -Pffmpeg -Djavacpp.options="-properties android-x86 -Dplatform.root=$ANDROID_NDK -Dcompiler.path=$ANDROID_NDK/toolchains/x86-4.6/prebuilt/linux-x86_64/bin/i686-linux-android-g++ -Dcompiler.includepath=$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/include\
 :$ANDROID_NDK/sources/cxx-stl/gnu-libstdc++/4.6/libs/x86/include\
 :../javacv-cppjars/opencv-2.4.8/build_android-x86/\
@@ -178,19 +178,18 @@ mvn package -Pffmpeg -Djavacpp.options="-properties android-x86 -Dplatform.root=
 :../javacv-cppjars/ffmpeg-2.1.1-android-x86/libavdevice"
 ```
 
-<span style="line-height: 1.5;">You’ll get your packages in **target/**:  
-</span>
+You’ll get your packages in **target/**:
 
-```
+```text
 2.7M Jan 15 19:09 javacv-android-x86.jar
 3.6M Jan 15 19:09 javacv-bin.zip
 747K Jan 15 19:09 javacv-src.zip
 734K Jan 15 19:09 javacv.jar
 ```
 
-# Adding this x86 version to your app
+## Adding this x86 version to your app
 
-From the packages I gave at the beginning of this article or from what you’ve just built, you can now copy the [generated .so files](http://ph0b.com/wp-content/uploads/2014/01/javacv-0.7-cppjars-android-x86.zip) that are inside **javacv-android-x86.jar**, **ffmpeg-2.1.1-android-x86.jar** and **opencv-2.4.8-android-x86.jar** into the **/lib/x86/** folder of your Android package, the same way as the arm versions inside **/lib/armeabi-v7a/**.
+From the packages I gave at the beginning of this article or from what you’ve just built, you can now copy the [generated .so files](/wp-content/uploads/2014/01/javacv-0.7-cppjars-android-x86.zip) that are inside **javacv-android-x86.jar**, **ffmpeg-2.1.1-android-x86.jar** and **opencv-2.4.8-android-x86.jar** into the **/lib/x86/** folder of your Android package, the same way as the arm versions inside **/lib/armeabi-v7a/**.
 
 To get more information on how to deal with .so files and APKs, please refer to these two previous articles:
 

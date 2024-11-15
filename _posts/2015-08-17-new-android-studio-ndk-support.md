@@ -44,13 +44,13 @@ The gradle-experimental 0.7.2 requires using gradle-2.10. Start by setting it fr
 
 Or inside *gradle/wrapper/gradle-wrapper.properties:*
 
-```
+```gradle
 distributionUrl=https\://services.gradle.org/distributions/gradle-2.10-all.zip
 ```
 
 Then, change the reference to the android gradle plugin to the new gradle-experimental plugin, from *./build.gradle*:
 
-```
+```gradle
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -67,7 +67,7 @@ The gradle-experimental plugin introduces a change in the DSL. The android plugi
 
 You need to migrate your apps and libs *build.gradle* files to use these new plugins. Here is an example of the same configuration, with the old DSL (top) and the new (bottom):
 
-```
+```gradle
 apply plugin: 'com.android.application'
 
 android {
@@ -112,7 +112,7 @@ android {
 }
 ```
 
-```
+```gradle
 apply plugin: 'com.android.model.application'
 
 model {
@@ -134,7 +134,7 @@ model {
         ldLibs.addAll(['log'])
         cppFlags.add("-std=c++11")
         cppFlags.add("-fexceptions")
-		platformVersion 15
+        platformVersion 15
         stl 'gnustl_shared'
     }
 
@@ -158,7 +158,7 @@ model {
 }
 ```
 
-To summarize the changes required: all the android declarations are now going under *model {},* <del>the various assignments now have to use explicitly ‘*=*‘</del>*,* collections must not be overwritten, use *.removeAll()*, *.add()*, *.addAll()* instead. Variants and other new configurations have to be declared using ‘*create()*‘. Properties like *xxxSdkVersion* have changed to *xxxSdkVersion.apiLevel*.
+To summarize the changes required: all the android declarations are now going under *model {},* ~~the various assignments now have to use explicitly ‘*=*‘~~*,* collections must not be overwritten, use *.removeAll()*, *.add()*, *.addAll()* instead. Variants and other new configurations have to be declared using ‘*create()*‘. Properties like *xxxSdkVersion* have changed to *xxxSdkVersion.apiLevel*.
 
 As it’s experimental, you can expect regular changes around the DSL across versions. For example, *minifyEnabled* has been changed to *isMinifyEnabled,* then to *minifyEnabled* again, and now there is also *useProguard;* *jniDebuggable* has been changed to *isJniDebuggable* and then to *ndk.debuggable* (and is now set by default for debug builds).
 
@@ -168,7 +168,7 @@ You’ll notice that with both DSLs, there is a configuration block for the NDK.
 
 To activate the C++/NDK support inside Android Studio, you only need to have a NDK module declared inside your application or library build.gradle:
 
-```
+```gradle
 model {
     android {
     //...
@@ -191,7 +191,7 @@ In order to get started with NDK modules, you can have a look at all the samples
 
 Here is everything you can configure for a ndk module:
 
-```
+```gradle
     android.ndk {
         moduleName = "mymodule"
         ldLibs.addAll(['log'])
@@ -210,19 +210,19 @@ Here is everything you can configure for a ndk module:
 
 Since 0.7.0, you can also add ABI-specific configurations:
 
-```
-	android.abis {
-		create("x86") {
-			cppFlags.add('-DENABLE_SSSE3')
-			ldLibs.add('')
-			ldFlags('')
-		}
-		create("armeabi-v7a") {
-			cppFlags.addAll(["-mhard-float", "-D_NDK_MATH_NO_SOFTFP=1", "-mfloat-abi=hard"])
-			ldLibs.add("m_hard")
-			ldFlags.add("-Wl,--no-warn-mismatch")
-		}
-	}
+```gradle
+    android.abis {
+        create("x86") {
+            cppFlags.add('-DENABLE_SSSE3')
+            ldLibs.add('')
+            ldFlags('')
+        }
+        create("armeabi-v7a") {
+            cppFlags.addAll(["-mhard-float", "-D_NDK_MATH_NO_SOFTFP=1", "-mfloat-abi=hard"])
+            ldLibs.add("m_hard")
+            ldFlags.add("-Wl,--no-warn-mismatch")
+        }
+    }
 ```
 
 ## Debugging a NDK project
@@ -251,7 +251,7 @@ If you have access to your 3rd party libraries source code, you can embed it int
 
 There is an example of this with the native\_app\_glue library from the NDK, inside the [native-activity sample](https://github.com/googlesamples/android-ndk/blob/229cbe86238d401bb06166b8dfadec8198532589/native-activity/app/build.gradle#L22). For example, you can copy the library sources inside a subfolder inside your *jni* folder and add a reference to its directory so the includes are properly resolved:
 
-```
+```gradle
     android.ndk {
         //...
         cppFlags.add('-I' + file("src/main/jni/native_app_glue"))
@@ -262,7 +262,7 @@ There is an example of this with the native\_app\_glue library from the NDK, ins
 
 Now from 0.6.0-alpha7 version, you can finally have clean dependencies between native libraries, by setting the dependency on another module from your model:
 
-```
+```gradle
     android.sources {
         main {
             jni {
@@ -280,7 +280,7 @@ In order to keep debugging working, you may have to edit your app-native run con
 
 This technique works with static and shared prebuilts too! Inside your model, you’ll have to add a “lib repository”:
 
-```
+```gradle
     repositories {
         libs(PrebuiltLibraries) {
             yourlib {
@@ -295,7 +295,7 @@ This technique works with static and shared prebuilts too! Inside your model, yo
 
 And declare the dependency on this library:
 
-```
+```gradle
     android.sources {
         main {
             jni {
@@ -311,7 +311,7 @@ Shared linkage is the default, but of course you can use static prebuilts by usi
 
 When having dependencies on shared libraries, you need to make sure to integrate these libs inside your APK. It will be the case if they’re under *jniLibs*, otherwise you can add them manually:
 
-```
+```gradle
     android.sources {
         main {
             jniLibs {
@@ -337,7 +337,7 @@ If the built-in gradle support isn’t suitable to your needs, you can get rid o
 
 Declare a module that correctly represents your configuration, as this will help AS to correctly resolve all the symbols you’re using and keep the editing capabilities:
 
-```
+```gradle
 android.ndk { // keeping it to make AS correctly support C++ code editing
         moduleName "mymodule"
         ldLibs.add('log')
@@ -350,7 +350,7 @@ android.ndk { // keeping it to make AS correctly support C++ code editing
 
 Then, set the *jniLibs* location to *libs*, the default directory in which *ndk-build* will put the generated libs, and deactivate built-in compilation tasks:
 
-```
+```gradle
 model {
     //...
     android.sources {
@@ -364,23 +364,23 @@ model {
 }
 
 tasks.all {
-	task ->
-	if (task.name.startsWith('compile') && task.name.contains('MainC')) {
-		task.enabled = false
-	}
-	if (task.name.startsWith('link')) {
-		task.enabled = false
-	}
+    task ->
+    if (task.name.startsWith('compile') && task.name.contains('MainC')) {
+        task.enabled = false
+    }
+    if (task.name.startsWith('link')) {
+        task.enabled = false
+    }
 }
 ```
 
-*Thanks to [Alex Cohn](http://stackoverflow.com/questions/32594682/how-do-we-define-multiple-modules-with-the-new-ndk-gradle-based-builder/32640943#32640943) and <span class="lG">Vitaly</span> Dyadyuk who shared this technique to disable compilation tasks.*
+*Thanks to [Alex Cohn](http://stackoverflow.com/questions/32594682/how-do-we-define-multiple-modules-with-the-new-ndk-gradle-based-builder/32640943#32640943) and Vitaly Dyadyuk who shared this technique to disable compilation tasks.*
 
 This way, you can call *ndk-build(.cmd)* yourself from the root of your src/main directory. ndk-build will use your usual *Android.mk*/*Application.mk* files under the *jni* folder, your libs will be generated inside *libs/&lt;ABI&gt;* as usual and get included inside your APK.
 
 You can also add the call to *ndk-build* in your gradle configuration so it’s done automatically:
 
-```
+```gradle
 import org.apache.tools.ant.taskdefs.condition.Os
 
 model {
@@ -405,16 +405,16 @@ task ndkBuild(type: Exec) {
 }
 
 tasks.all {
-	task ->
-	if (task.name.startsWith('compile') && task.name.contains('MainC')) {
-		task.enabled = false
-	}
-	if (task.name.startsWith('link')) {
-		task.enabled = false
-	}
-	if (task.name.endsWith('SharedLibrary') ) {
-		task.dependsOn ndkBuild
-	}
+    task ->
+    if (task.name.startsWith('compile') && task.name.contains('MainC')) {
+        task.enabled = false
+    }
+    if (task.name.startsWith('link')) {
+        task.enabled = false
+    }
+    if (task.name.endsWith('SharedLibrary') ) {
+        task.dependsOn ndkBuild
+    }
 }
 ```
 
@@ -422,8 +422,8 @@ tasks.all {
 
 - [official samples](https://github.com/googlesamples/android-ndk)
 - [gradle-experimental user guide](http://tools.android.com/tech-docs/new-build-system/gradle-experimental)
-- Important bugs that may hit you: 
-    - [Android Studio cannot find jni.h, but compilation still works](https://code.google.com/p/android/issues/detail?id=195483) (ETA: Android Studio 2.2)
-    - [ ndk.platformVersion &lt; 21 prevents generating 64-bit libs](https://code.google.com/p/android/issues/detail?id=195135) (ETA: Android Studio 2.2)
-    - [can’t dynamically modify APKs versionCodes with gradle-experimental plugin](https://code.google.com/p/android/issues/detail?id=192943) (No ETA)
-    - [adding lint checks for incoherent inclusion of .so files](https://code.google.com/p/android/issues/detail?id=94805) (No ETA)
+- Important bugs that may hit you:
+  - [Android Studio cannot find jni.h, but compilation still works](https://code.google.com/p/android/issues/detail?id=195483) (ETA: Android Studio 2.2)
+  - [ndk.platformVersion &lt; 21 prevents generating 64-bit libs](https://code.google.com/p/android/issues/detail?id=195135) (ETA: Android Studio 2.2)
+  - [can’t dynamically modify APKs versionCodes with gradle-experimental plugin](https://code.google.com/p/android/issues/detail?id=192943) (No ETA)
+  - [adding lint checks for incoherent inclusion of .so files](https://code.google.com/p/android/issues/detail?id=94805) (No ETA)

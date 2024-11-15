@@ -42,7 +42,7 @@ Using the RenderScript support Library? OpenCV? Unity? android-gif-drawable? SQL
 
 The ABIs supported by your Android application are determined by the presence of *.so files* inside your APK, under the “**lib/&lt;ABI&gt;**” folders where ABI can be one or more of *armeabi*, *armeabi-v7a*, *arm64-v8a*, *mips, mips64*, *x86*, *x86\_64* (the current seven ABIs).
 
-[![Native Libs Monitor - screenshot](http://ph0b.com/wp-content/uploads/2015/06/image00-1024x640.png)](http://ph0b.com/wp-content/uploads/2015/06/image00.png)[*Native Libs Monitor*](https://play.google.com/store/apps/details?id=com.xh.nativelibsmonitor.app) *can help you understanding what .so files are embedded inside your APK and installed on your device, and which libraries and frameworks they’re coming from.*
+[![Native Libs Monitor - screenshot](/wp-content/uploads/2015/06/image00-1024x640.png)](/wp-content/uploads/2015/06/image00.png)[*Native Libs Monitor*](https://play.google.com/store/apps/details?id=com.xh.nativelibsmonitor.app) *can help you understanding what .so files are embedded inside your APK and installed on your device, and which libraries and frameworks they’re coming from.*
 
 Most devices are compatible with more than one ABI. For example, ARM64 devices and x86 devices can run *armeabi-v7a* and *armeabi* binaries too! But it’s always better to provide libraries compiled for the preferred ABI of the device. This way, libraries can run without an emulation layer (in case of arm libs on x86 devices), and get more performance thanks to the recent architecture improvements (hardware fpu, more registers, better vectorization, etc).
 
@@ -102,7 +102,7 @@ x86 devices can run ARM libraries quite well, but it’s not 100% crash proof, p
 
 Reducing APK’s weight is in any case a false excuse, as you can upload distinct ABI-dependent APKs to the Play Store (for the same app entry, of course). You only have to switch to advanced mode and upload your APKs with different ABI support and versionCodes. Generating these APKs is as simple as adding this to your build.gradle:
 
-```
+```gradle
 android {
     ... 
     splits {
@@ -133,4 +133,4 @@ The libraries you can use are the ones which are part of the NDK ones. Any other
 
 TL;DR:
 
-<figure aria-describedby="caption-attachment-231" class="wp-caption aligncenter" id="attachment_231" style="width: 568px">[![One does not simply include random libs and .so files inside an android app.](http://ph0b.com/wp-content/uploads/2015/06/nnhuh.jpg)](http://ph0b.com/wp-content/uploads/2015/06/nnhuh.jpg)<figcaption class="wp-caption-text" id="caption-attachment-231">meme</figcaption></figure>
+[![One does not simply include random libs and .so files inside an android app.](/wp-content/uploads/2015/06/nnhuh.jpg)](/wp-content/uploads/2015/06/nnhuh.jpg)

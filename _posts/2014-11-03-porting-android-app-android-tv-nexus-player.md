@@ -32,7 +32,7 @@ tags:
 
 The **Nexus Player** is the **Android TV** **Nexus** device from Google.
 
-[![](https://ph0b.com/wp-content/uploads/2014/11/player-overview-1600.jpg)](//ph0b.com/wp-content/uploads/2014/11/player-overview-1600.jpg)
+[![Nexus Player](/wp-content/uploads/2014/11/player-overview-1600.jpg)](/wp-content/uploads/2014/11/player-overview-1600.jpg)
 
 This device, made by Asus embeds 8GB memory, 1GB of ram, costs **99$** and features an **Intel**® SOC, the Atom Z3560 (codenamed Moorefield). That means it has got a **4-cores** **64-bit** Silvermont CPU clocked at **1.83 Ghz** and a **PowerVR** Series 6 GPU (**G6430**) that supports **OpenGL ES 3.1**.
 
@@ -52,7 +52,7 @@ But in the case of the Android TV Launcher, the category of the intent isn’t *
 
 Here is how you should declare the Main Activity of your application for Android TV:
 
-```
+```xml
 <activity
             android:name=".TvMainActivity"
             android:banner="@drawable/ic_banner"
@@ -64,10 +64,10 @@ Here is how you should declare the Main Activity of your application for Android
 </activity>
 ```
 
-<span style="text-decoration: underline;">Note:</span> There are two categories of apps inside the Leanback Launcher -&gt; Apps and Games. If you want to appear among the Games, you need to set the *isGame* property of your application to true:
+**Note:** There are two categories of apps inside the Leanback Launcher -&gt; Apps and Games. If you want to appear among the Games, you need to set the *isGame* property of your application to true:
 
-```
-<application>
+```xml
+<application
   ...
   android:isGame="true"
   ...>
@@ -81,7 +81,7 @@ The logo of your application that will be displayed on the launcher is the *andr
 
 It has to be a 320x180px picture that you have to put inside your *drawable-xhdpi* resource folder. This pictures has to include the Name of your application, localized if needed, and have no alpha channel:
 
-[![videos_by_google_banner](//ph0b.com/wp-content/uploads/2014/11/videos_by_google_banner.png)](//ph0b.com/wp-content/uploads/2014/11/videos_by_google_banner.png)
+[![videos_by_google_banner](/wp-content/uploads/2014/11/videos_by_google_banner.png)](/wp-content/uploads/2014/11/videos_by_google_banner.png)
 
 All this will allow your application to be seen and started from the Android TV launcher.
 
@@ -95,7 +95,7 @@ First, you need to implement support for D-pad navigation. Standard Android UI e
 
 Adjust the element that will have the initial focus inside your view using *requestFocus()* from Java or *&lt;requestFocus /&gt;* from your xml layouts:
 
-```
+```xml
 <View android:id="@+id/my_view" android:focusable="true" >
       <requestFocus />
 </View>
@@ -107,7 +107,7 @@ The *android:focusable* property may need to be set to true if you want the focu
 
 Sometimes you may need to adjust the navigation within your view. You can choose where the focus is going from one element to another using *nextFocus* properties:
 
-```
+```xml
 <View 
     android:nextFocusDown="@id/bottom_view"
     android:nextFocusUp="@id/top_view"
@@ -120,7 +120,7 @@ Sometimes you may need to adjust the navigation within your view. You can choose
 
 Once D-pad navigation is working for you app, you can declare it inside your AndroidManifest.xml. Simply declare that the “touchscreen” feature isn’t required:
 
-```
+```xml
 <uses-feature
     android:name="android.hardware.touchscreen"
     android:required="false" />
@@ -136,7 +136,7 @@ Two potential themes you can use are Theme.Leanback from the Leanback support li
 
 These themes don’t integrate overscan margins themselves, hence you may need to add some to your activities. Note that Leanback elements already include margins for proper overscan handling.
 
-```
+```xml
 <LinearLayout
 ...
     android:layout_marginTop="27dp"
@@ -152,7 +152,7 @@ The Leanback support library is available from API Level 17 and provides ready-t
 
 If you want to continue supporting lower API levels from your application, you can keep all the references to the Leanback theme and elements inside the TV-specific part of your app and resources-v21, then use gradle’s manifest merger feature to avoid your minSdkVersion to be upgraded:
 
-```
+```xml
 <manifest 
     xmlns:tools="http://schemas.android.com/tools"
     ...>
@@ -161,7 +161,7 @@ If you want to continue supporting lower API levels from your application, you c
    ...
 ```
 
-You can start looking at the [sample ](https://github.com/googlesamples/androidtv-Leanback/)to see how to use the Leanback support library. I also recommend reading this good [introductory article](https://medium.com/building-for-android-tv/building-for-android-tv-episode-1-2d03f9ba541e) from Sebastiano Gottardo (musixMatch).
+You can start looking at the [sample](https://github.com/googlesamples/androidtv-Leanback/) to see how to use the Leanback support library. I also recommend reading this good [introductory article](https://medium.com/building-for-android-tv/building-for-android-tv-episode-1-2d03f9ba541e) from Sebastiano Gottardo (musixMatch).
 
 ## Going further with Games
 
@@ -169,7 +169,7 @@ Android TV games can really be improved by adding a good multiplayer experience 
 
 From your manifest, you can specify that you support gamepads:
 
-```
+```xml
 <uses-feature 
     android:name="android.hardware.gamepad"
     android:required="false" />
@@ -187,7 +187,7 @@ The Recommendations system occupies half of the space of the Launcher, to appear
 
 Through the *features* filtering functionality of the Play Store, you can restrict your APK for distribution to Android TV compatible devices, by setting the feature *android.software.leanback* as required:
 
-```
+```xml
 <uses-feature android:name="android.software.leanback"
         android:required="true" />
 ```
@@ -212,7 +212,7 @@ If you have *android:screenOrientation=”portrait”* added to any activity of 
 
 You need to explicitly set it to false inside your manifest if you want your application to be available on Android TV devices:
 
-```
+```xml
 <uses-feature
     android:name="android.hardware.screen.portrait"
     android:required="false" />
@@ -220,7 +220,7 @@ You need to explicitly set it to false inside your manifest if you want your app
 
 The same is needed for:
 
-- *<span class="pln">android</span><span class="pun">.</span><span class="pln">hardware</span><span class="pun">.</span><span class="pln">location</span><span class="pun">.</span>android.permission.ACCESS\_FINE\_LOCATION*
+- *android.hardware.location.android.permission.ACCESS\_FINE\_LOCATION*
 - *android.hardware.camera.autofocus* and *android.hardware.camera* implied by *android.permission.CAMERA*
 - *android.hardware.microphone* implied by *android.permission.RECORD\_AUDIO*
 - *android.hardware.telephony* implied by many telephony-specific permissions
@@ -229,9 +229,9 @@ The same is needed for:
 
 Once your application is ready and you’ve uploaded your APK to the Play Store developer console, you still need to add a screenshot as well as your banner:
 
-| ![distribute-tv2](//ph0b.com/wp-content/uploads/2014/11/distribute-tv2.png) | ![banner](//ph0b.com/wp-content/uploads/2014/11/banner.png) |
+| ![distribute-tv2](/wp-content/uploads/2014/11/distribute-tv2.png) | ![banner](/wp-content/uploads/2014/11/banner.png) |
 |---|---|
 
 Then tick the proper checkbox to ask for distribution on Android TV:
 
-[![distribute-tv](//ph0b.com/wp-content/uploads/2014/11/distribute-tv.png)](//ph0b.com/wp-content/uploads/2014/11/distribute-tv.png)It will be manually reviewed before being available on the Play Store browsed from Android TV devices.
+[![distribute-tv](/wp-content/uploads/2014/11/distribute-tv.png)](/wp-content/uploads/2014/11/distribute-tv.png)It will be manually reviewed before being available on the Play Store browsed from Android TV devices.

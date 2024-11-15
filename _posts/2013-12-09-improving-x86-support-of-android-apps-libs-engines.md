@@ -24,7 +24,7 @@ Let’s start by explaining what it generally involves to do this and why it mat
 
 ## Why doing anything for x86-based Android products?
 
-Android running on x86 platforms isn’t something new. The community-driven android-x86.org project for example exists since 2009. It’s also worth mentioning the first Google TVs (2010) were already running an x86 version of Android and t<span style="line-height: 1.5;">he x86 target has been officially added to the Android NDK since r6 (2011).</span>
+Android running on x86 platforms isn’t something new. The community-driven android-x86.org project for example exists since 2009. It’s also worth mentioning the first Google TVs (2010) were already running an x86 version of Android and the x86 target has been officially added to the Android NDK since r6 (2011).
 
 Intel contributed a lot to bring more x86 compatibility into the AOSP (Android Open Source Project) itself, and is also behind android-ia.org (2012) that gives a fully open source distribution of Android that can be booted on recent UEFI-based PCs.
 
@@ -57,7 +57,7 @@ Luckily the x86 devices on the market all embed something particular called “N
 
 The first thing to do is to check inside your app if you even have native libraries.
 
-[![so-files](http://ph0b.com/wp-content/uploads/2013/12/so-files-300x252.png)](http://ph0b.com/wp-content/uploads/2013/12/so-files.png)
+[![so-files](/wp-content/uploads/2013/12/so-files-300x252.png)](/wp-content/uploads/2013/12/so-files.png)
 
 If you are using the Android NDK by yourself, you obviously already know your app has native libraries… Maybe even all the code of your app is written in C/C++ (ie. you are using native\_app\_glue.h).
 
@@ -71,7 +71,7 @@ Start with setting **APP\_ABI:=all** in your Makefile “jni/**Application.mk**�
 
 Next time you’ll compile your code, the shared object libraries will be generated for all the CPU ABIs the NDK supports, under **libs/TARGET\_ARCH\_ABI/\*.so**:
 
-[![ndk-build APP_ABI all](http://ph0b.com/wp-content/uploads/2013/12/ndk-build-300x141.png)](http://ph0b.com/wp-content/uploads/2013/12/ndk-build.png)
+[![ndk-build APP_ABI all](/wp-content/uploads/2013/12/ndk-build-300x141.png)](/wp-content/uploads/2013/12/ndk-build.png)
 
 Dead simple, isn’t it?
 
@@ -89,25 +89,25 @@ Having said that, many libs and engines already have x86 support out-of-the-box.
 
 If you are trying to install your app in an x86 emulator and get this message from logcat:
 
-```
+```text
 Failure [INSTALL_FAILED_CPU_ABI_INCOMPATIBLE]
 ```
 
 or from Google Play Store:
 
-```
+```text
 Your device isn't compatible with this version
 ```
 
 This means you have native libraries inside **lib/(armeabi|armeabi-v7a|mips)** folders but not inside **lib/x86**, hence your package is declared as incompatible with the x86 ABI.
 
-You need to [get an x86 version](#howto)[ of your native libraries](#howto) if you want it to run inside x86 emulators.
+You need to [get an x86 version of your native libraries](#howto) if you want it to run inside x86 emulators.
 
 ### Compilation
 
 The most obvious thing that can break x86 compilation is to have ARM assembly code somewhere… you’ll get errors like these:
 
-```
+```text
 Error: no such instruction: `ldr r12,[r0]'
 Error: no such instruction: `smull %edx,%esi,%eax,%ecx'
 Error: number of operands mismatch for `mov'
@@ -128,7 +128,7 @@ You can use all the classic debugging techniques (gdb…) when using the x86 ima
 
 -O3 and -ffast-math are the classic cflags you can use to enable maximum compiler optimization when targeting any platform but there are some other architecture specific flags you can set when compiling for x86 by adding this in your **Android.mk** Makefile.
 
-```
+```make
 ifeq ($(TARGET_ARCH_ABI),x86)
   LOCAL_CFLAGS += -ffast-math -mtune=atom -mssse3 -mfpmath=sse 
 endif
@@ -153,7 +153,7 @@ That’s because a set of these architectures can be compatible with a single de
 
 You can follow this rule any way you want, but it’s easier to achieve this by following a convention like prefixing your regular version number with a single digit representing the ABI:
 
- [![android:versionCode convention for various ABIs](http://ph0b.com/wp-content/uploads/2013/12/versioncode-convention.png)](http://ph0b.com/wp-content/uploads/2013/12/versioncode-convention.png)
+ [![android:versionCode convention for various ABIs](/wp-content/uploads/2013/12/versioncode-convention.png)](/wp-content/uploads/2013/12/versioncode-convention.png)
 
 Some useful links:
 
