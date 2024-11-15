@@ -17,7 +17,9 @@ tags:
     - yocto
 ---
 
-[Galileo](http://arduino.cc/en/ArduinoCertified/IntelGalileo) is an **Arduino** that runs on a (x86) Intel® Quark X1000 SOC.![IntelGalileo_fabD_Front_450px](/uploads/2014/01/IntelGalileo_fabD_Front_450px-150x150.jpg)
+[Galileo](http://arduino.cc/en/ArduinoCertified/IntelGalileo) is an **Arduino** that runs on a (x86) Intel® Quark X1000 SOC.
+
+![IntelGalileo_fabD_Front_450px](/wp-content/uploads/2014/01/IntelGalileo_fabD_Front_450px-150x150.jpg)
 
 While it’s fully compatible with **Arduino** Software Development Environment, it’s also capable of running a **full Linux distribution**.
 
