@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Define a clipping mask in the shape of the wafer -->
+  <defs>
+    <clipPath id="waferClip">
+      <circle cx="100" cy="100" r="90" />
+    </clipPath>
+  </defs>
+
+  <!-- Silicon wafer background -->
+  <circle cx="100" cy="100" r="90" fill="#9cd3db" stroke="#006d75" stroke-width="2" />
+
+  <!-- Grid of dies clipped to the wafer -->
+  <g clip-path="url(#waferClip)" fill="#004d4e" stroke="#008b8b" stroke-width="1">
+    <!-- Generate the grid -->
+    <!-- The grid is larger than the wafer, but clipped by the mask -->
+    <rect x="10" y="10" width="20" height="20" />
+    <rect x="30" y="10" width="20" height="20" />
+    <rect x="50" y="10" width="20" height="20" />
+    <rect x="70" y="10" width="20" height="20" />
+    <rect x="90" y="10" width="20" height="20" />
+    <rect x="110" y="10" width="20" height="20" />
+    <rect x="130" y="10" width="20" height="20" />
+    <rect x="150" y="10" width="20" height="20" />
+    <rect x="170" y="10" width="20" height="20" />
+
+
+    <rect x="10" y="30" width="20" height="20" />
+    <rect x="30" y="30" width="20" height="20" />
+    <rect x="50" y="30" width="20" height="20" />
+    <rect x="70" y="30" width="20" height="20" />
+    <rect x="90" y="30" width="20" height="20" />
+    <rect x="110" y="30" width="20" height="20" />
+    <rect x="130" y="30" width="20" height="20" />
+    <rect x="150" y="30" width="20" height="20" />
+    <rect x="170" y="30" width="20" height="20" />
+
+
+    <rect x="10" y="50" width="20" height="20" />
+    <rect x="30" y="50" width="20" height="20" />
+    <rect x="50" y="50" width="20" height="20" />
+    <rect x="70" y="50" width="20" height="20" />
+    <rect x="90" y="50" width="20" height="20" />
+    <rect x="110" y="50" width="20" height="20" />
+    <rect x="130" y="50" width="20" height="20" />
+    <rect x="150" y="50" width="20" height="20" />
+    <rect x="170" y="50" width="20" height="20" />
+
+
+    <rect x="10" y="70" width="20" height="20" />
+    <rect x="30" y="70" width="20" height="20" />
+
+    <rect x="70" y="70" width="20" height="20" />
+    <rect x="90" y="70" width="20" height="20" />
+    <rect x="110" y="70" width="20" height="20" />
+    <rect x="130" y="70" width="20" height="20" />
+    <rect x="150" y="70" width="20" height="20" />
+    <rect x="170" y="70" width="20" height="20" />
+
+
+    <rect x="10" y="90" width="20" height="20" />
+    <rect x="30" y="90" width="20" height="20" />
+    <rect x="50" y="90" width="20" height="20" />
+    <rect x="70" y="90" width="20" height="20" />
+
+    <rect x="110" y="90" width="20" height="20" />
+    <rect x="130" y="90" width="20" height="20" />
+    <rect x="150" y="90" width="20" height="20" />
+    <rect x="170" y="90" width="20" height="20" />
+
+
+    <rect x="10" y="110" width="20" height="20" />
+    <rect x="30" y="110" width="20" height="20" />
+    <rect x="50" y="110" width="20" height="20" />
+    <rect x="70" y="110" width="20" height="20" />
+    <rect x="90" y="110" width="20" height="20" />
+    <rect x="110" y="110" width="20" height="20" />
+    <rect x="130" y="110" width="20" height="20" />
+    <rect x="150" y="110" width="20" height="20" />
+    <rect x="170" y="110" width="20" height="20" />
+
+
+    <rect x="10" y="130" width="20" height="20" />
+    <rect x="30" y="130" width="20" height="20" />
+
+    <rect x="70" y="130" width="20" height="20" />
+    <rect x="90" y="130" width="20" height="20" />
+    <rect x="110" y="130" width="20" height="20" />
+    <rect x="130" y="130" width="20" height="20" />
+    <rect x="150" y="130" width="20" height="20" />
+    <rect x="170" y="130" width="20" height="20" />
+
+
+    <rect x="10" y="150" width="20" height="20" />
+    <rect x="30" y="150" width="20" height="20" />
+    <rect x="50" y="150" width="20" height="20" />
+    <rect x="70" y="150" width="20" height="20" />
+    <rect x="90" y="150" width="20" height="20" />
+    <rect x="110" y="150" width="20" height="20" />
+    <rect x="130" y="150" width="20" height="20" />
+    <rect x="150" y="150" width="20" height="20" />
+    <rect x="170" y="150" width="20" height="20" />
+
+
+    <rect x="10" y="170" width="20" height="20" />
+    <rect x="30" y="170" width="20" height="20" />
+    <rect x="50" y="170" width="20" height="20" />
+    <rect x="70" y="170" width="20" height="20" />
+    <rect x="90" y="170" width="20" height="20" />
+    <rect x="110" y="170" width="20" height="20" />
+    <rect x="130" y="170" width="20" height="20" />
+    <rect x="150" y="170" width="20" height="20" />
+    <rect x="170" y="170" width="20" height="20" />
+  </g>
+</svg>
